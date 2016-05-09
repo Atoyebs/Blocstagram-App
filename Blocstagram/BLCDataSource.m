@@ -68,109 +68,6 @@
 }
 
 
-#pragma mark - Funcitons Using Random
-
-/*
-- (void) addRandomData {
-    
-    NSMutableArray *randomMediaItems = [NSMutableArray array];
-    
-    for (int i = 0  ; i <= 10; i++) {
-        
-        NSString *imageName = [NSString stringWithFormat:@"%d.jpg", i];
-        UIImage *image = [UIImage imageNamed:imageName];
-        
-        if (image) {
-            
-            BLCMedia *media = [[BLCMedia alloc] init];
-            media.user = [self randomUser];
-            media.image = image;
-            
-            NSUInteger commentCount = arc4random_uniform(10);
-            NSMutableArray *randomComments = [NSMutableArray array];
-            
-            for (int i  = 0; i <= commentCount; i++) {
-                BLCComment *randomComment = [self randomComment];
-                [randomComments addObject:randomComment];
-            }
-            
-            media.comments = randomComments;
-            
-            [randomMediaItems addObject:media];
-        }
-    }
-    
-    _mediaItems = randomMediaItems;
-}
-
-- (BLCUser *) randomUser {
-    
-    BLCUser *user = [[BLCUser alloc] init];
-    
-    user.userName = [self randomStringOfLength:arc4random_uniform(10)];
-    
-    NSString *firstName = [self randomStringOfLength:arc4random_uniform(7)];
-    NSString *lastName = [self randomStringOfLength:arc4random_uniform(12)];
-    user.fullName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
-    
-    return user;
-}
-
-- (BLCComment *) randomComment {
-    
-    BLCComment *comment = [[BLCComment alloc] init];
-    
-    comment.from = [self randomUser];
-    
-    NSUInteger wordCount = arc4random_uniform(20);
-    
-    NSMutableString *randomSentence = [[NSMutableString alloc] init];
-    
-    for (int i  = 0; i <= wordCount; i++) {
-        NSString *randomWord = [self randomStringOfLength:arc4random_uniform(12)];
-        [randomSentence appendFormat:@"%@ ", randomWord];
-    }
-    
-    comment.text = randomSentence;
-    
-    return comment;
-}
-
-- (NSString *) randomStringOfLength:(NSUInteger) len {
-    
-    NSString *alphabet = @"abcdefghijklmnopqrstuvwxyz";
-    
-    NSMutableString *s = [NSMutableString string];
-    for (NSUInteger i = 0U; i < len; i++) {
-        u_int32_t r = arc4random_uniform((u_int32_t)[alphabet length]);
-        unichar c = [alphabet characterAtIndex:r];
-        [s appendFormat:@"%C", c];
-    }
-    return [NSString stringWithString:s];
-}
-
-- (NSString*)randomSentenceWithMaximumNumberOfWords:(NSUInteger)maximumNumberOfWords {
-
-    NSMutableString *sentence = [NSMutableString new];
-    static int minimumNumberOfWords = 2;
-    static int minimumNumberOfLettersInWord = 3;
-    int numberOfWords = arc4random_uniform(maximumNumberOfWords - minimumNumberOfWords) + minimumNumberOfWords;
-    int numberOfLetters = 0;
-    
-    for (int i = 0; i < numberOfWords; i++) {
-        
-        //generate the number of letters this string is going to have for this iteration
-        numberOfLetters = arc4random_uniform(maximumNumberOfWords - minimumNumberOfLettersInWord) + minimumNumberOfLettersInWord;
-        [sentence appendString:[self randomStringOfLength:numberOfLetters]];
-        
-        if (i != (numberOfWords -1)) {
-            [sentence appendString:@" "];
-        }
-    }
-    
-    return sentence;
-}
-*/
 
 - (void) populateDataWithParameters:(NSDictionary *)parameters {
     if (self.accessToken) {
@@ -179,7 +76,7 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             // do the network request in the background, so the UI doesn't lock up
             
-            NSMutableString *urlString = [NSMutableString stringWithFormat:@"https://api.instagram.com/v1/users/self/feed?access_token=%@", self.accessToken];
+            NSMutableString *urlString = [NSMutableString stringWithFormat:@"https://api.instagram.com/v1/users/self/media/recent/?access_token=%@", self.accessToken];
             
             for (NSString *parameterName in parameters) {
                 // for example, if dictionary contains {count: 50}, append `&count=50` to the URL
@@ -210,8 +107,57 @@
 }
 
 
+- (void) downloadImageForMediaItem:(BLCMedia *)mediaItem {
+    
+    if (mediaItem.mediaURL && !mediaItem.image) {
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+           
+            NSURLRequest *request = [NSURLRequest requestWithURL:mediaItem.mediaURL];
+            
+            NSURLResponse *response;
+            NSError *error;
+            NSData *imageData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            
+            if (imageData) {
+                UIImage *image = [UIImage imageWithData:imageData];
+                
+                if (image) {
+                    mediaItem.image = image;
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
+                        NSUInteger index = [mutableArrayWithKVO indexOfObject:mediaItem];
+                        [mutableArrayWithKVO replaceObjectAtIndex:index withObject:mediaItem];
+                    });
+                }
+            } else {
+                NSLog(@"Error downloading image: %@", error);
+            }
+        });
+    }
+}
+
+
 - (void) parseDataFromFeedDictionary:(NSDictionary *) feedDictionary fromRequestWithParameters:(NSDictionary *)parameters {
-    NSLog(@"%@", feedDictionary);
+    
+    NSArray *mediaArray = feedDictionary[@"data"];
+    
+    NSMutableArray *tmpMediaItems = [NSMutableArray array];
+    
+    for (NSDictionary *mediaDictionary in mediaArray) {
+        BLCMedia *mediaItem = [[BLCMedia alloc] initWithDictionary:mediaDictionary];
+        
+        if (mediaItem) {
+            [tmpMediaItems addObject:mediaItem];
+            [self downloadImageForMediaItem:mediaItem];
+        }
+    }
+    
+    [self willChangeValueForKey:@"mediaItems"];
+    _mediaItems = tmpMediaItems;
+    [self didChangeValueForKey:@"mediaItems"];
+    
 }
 
 
