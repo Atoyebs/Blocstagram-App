@@ -64,7 +64,9 @@
         
         self.accessToken = note.object;
         
-        [self populateDataWithParameters:nil completionHandler:nil];
+        NSDictionary *appScope = @{@"scope": @"public_content"};
+        
+        [self populateDataWithParameters:appScope completionHandler:nil];
     }];
 
 }
@@ -265,7 +267,8 @@
        
         //Need to add images here
         NSString *minID = [[self.mediaItems firstObject] idNumber];
-        NSDictionary *parameters = @{@"min_id": minID};
+        NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"min_id": minID}];
+        [parameters addEntriesFromDictionary:@{@"scope": @"public_content"}];
         
         [self populateDataWithParameters:parameters completionHandler:^(NSError *error) {
             self.isRefreshing = NO;
@@ -287,7 +290,9 @@
         
         //Need to add images here
         NSString *maxID = [[self.mediaItems lastObject] idNumber];
-        NSDictionary *parameters = @{@"max_id": maxID};
+        NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"max_id": maxID}];
+        [parameters addEntriesFromDictionary:@{@"scope": @"public_content"}];
+        
         
         [self populateDataWithParameters:parameters completionHandler:^(NSError *error) {
             self.isLoadingOlderItems = NO;
