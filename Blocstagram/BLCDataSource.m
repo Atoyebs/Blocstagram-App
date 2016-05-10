@@ -75,7 +75,9 @@
                         [self willChangeValueForKey:@"mediaItems"];
                          _mediaItems = mutableMediaItems;
                         [self didChangeValueForKey:@"mediaItems"];
-                    } else {
+                        [self populateDataWithParameters:nil completionHandler:nil];
+                    }
+                    else {
                         [self populateDataWithParameters:nil completionHandler:nil];
                     }
                 });
