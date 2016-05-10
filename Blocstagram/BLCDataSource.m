@@ -26,6 +26,8 @@
 
 @property (nonatomic, strong) NSString *accessToken;
 
+@property (nonatomic, assign) BOOL thereAreNoMoreOlderMessages;
+
 @end
 
 
@@ -62,14 +64,17 @@
         
         self.accessToken = note.object;
         
-        [self populateDataWithParameters:nil];
+        NSDictionary *appScope = @{@"scope": @"public_content"};
+        
+        [self populateDataWithParameters:appScope completionHandler:nil];
     }];
 
 }
 
 
 
-- (void) populateDataWithParameters:(NSDictionary *)parameters {
+- (void) populateDataWithParameters:(NSDictionary *)parameters completionHandler:(BLCNewItemCompletionBlock)completionHandler {
+    
     if (self.accessToken) {
         // only try to get the data if there's an access token
         
@@ -92,18 +97,36 @@
                 NSError *webError;
                 NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&webError];
                 
-                NSError *jsonError;
-                NSDictionary *feedDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&jsonError];
-                
-                if (feedDictionary) {
+                if (responseData) {
+                    NSError *jsonError;
+                    NSDictionary *feedDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&jsonError];
+                    
+                    if (feedDictionary) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            // done networking, go back on the main thread
+                            [self parseDataFromFeedDictionary:feedDictionary fromRequestWithParameters:parameters];
+                            if (completionHandler) {
+                                completionHandler(nil);
+                            }
+                        });
+                    } else if (completionHandler) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            completionHandler(jsonError);
+                        });
+                    }
+                }
+                else if (completionHandler) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         // done networking, go back on the main thread
-                        [self parseDataFromFeedDictionary:feedDictionary fromRequestWithParameters:parameters];
+                        completionHandler(webError);
                     });
                 }
             }
         });
     }
+    
+    
+    
 }
 
 
@@ -136,6 +159,8 @@
             }
         });
     }
+    
+    
 }
 
 
@@ -154,9 +179,44 @@
         }
     }
     
-    [self willChangeValueForKey:@"mediaItems"];
-    _mediaItems = tmpMediaItems;
-    [self didChangeValueForKey:@"mediaItems"];
+    NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
+    
+    if (parameters[@"min_id"]) {
+        // This was a pull-to-refresh request
+        
+        NSRange rangeOfIndexes = NSMakeRange(0, tmpMediaItems.count);
+        NSIndexSet *indexSetOfNewObjects = [NSIndexSet indexSetWithIndexesInRange:rangeOfIndexes];
+        
+        [mutableArrayWithKVO insertObjects:tmpMediaItems atIndexes:indexSetOfNewObjects];
+    }
+    else if (parameters[@"max_id"]) {
+        // This was an infinite scroll request
+        
+        if (tmpMediaItems.count == 0) {
+            // disable infinite scroll, since there are no more older messages
+            self.thereAreNoMoreOlderMessages = YES;
+        }
+        
+        [mutableArrayWithKVO addObjectsFromArray:tmpMediaItems];
+    }
+    else {
+        [self willChangeValueForKey:@"mediaItems"];
+        _mediaItems = tmpMediaItems;
+        [self didChangeValueForKey:@"mediaItems"];
+    }
+    
+    
+    NSOperationQueue *commentRetreivalOperationQueue = [NSOperationQueue new];
+    
+    for (BLCMedia *mediaItem in _mediaItems) {
+        
+        NSBlockOperation *retrieveComments = [NSBlockOperation blockOperationWithBlock:^{
+            NSLog(@"mediaItem id = %@", mediaItem.idNumber);
+            [self populateCommentDataWithParameters:@{@"scope": @"basic+public_content"} withMediaItem:mediaItem];
+        }];
+        
+        [commentRetreivalOperationQueue addOperation:retrieveComments];
+    }
     
 }
 
@@ -217,17 +277,24 @@
 
 -(void)requestNewItemsWithCompletionHandler:(BLCNewItemCompletionBlock)completionHandler {
     
+    self.thereAreNoMoreOlderMessages = NO;
+    
     if (self.isRefreshing == NO) {
         
         self.isRefreshing = YES;
        
         //Need to add images here
+        NSString *minID = [[self.mediaItems firstObject] idNumber];
+        NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"min_id": minID}];
+        [parameters addEntriesFromDictionary:@{@"scope": @"public_content"}];
         
-        self.isRefreshing = NO;
-        
-        if (completionHandler) {
-            completionHandler(nil);
-        }
+        [self populateDataWithParameters:parameters completionHandler:^(NSError *error) {
+            self.isRefreshing = NO;
+            
+            if (completionHandler) {
+                completionHandler(error);
+            }
+        }];
         
     }
     
@@ -235,18 +302,94 @@
 
 -(void)requestOldItemsWithCompletionHandler:(BLCNewItemCompletionBlock)completionHandler {
     
-    if (self.isLoadingOlderItems == NO) {
+    if (self.isLoadingOlderItems == NO && self.thereAreNoMoreOlderMessages == NO) {
         
         self.isLoadingOlderItems = YES;
         
         //Need to add images here
+        NSString *maxID = [[self.mediaItems lastObject] idNumber];
+        NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"max_id": maxID}];
+        [parameters addEntriesFromDictionary:@{@"scope": @"public_content"}];
         
-        self.isLoadingOlderItems = NO;
         
-        if (completionHandler) {
-            completionHandler(nil);
-        }
+        [self populateDataWithParameters:parameters completionHandler:^(NSError *error) {
+            self.isLoadingOlderItems = NO;
+            
+            if (completionHandler) {
+                completionHandler(error);
+            }
+        }];
     }
+}
+
+
+#pragma mark - Retrieving Comments Via API
+
+-(void)populateCommentDataWithParameters:(NSDictionary*)parameters withMediaItem:(BLCMedia*)mediaItem {
+    
+    NSDictionary *commentsDictionary;
+    
+    //if the accessToken isn't empty
+    if (self.accessToken) {
+        
+            NSString *instagramCommentsForMediaItemURL = [BLCDataSource commentURLForMediaItemWithID:mediaItem.idNumber];
+            
+            NSMutableString *urlString = [NSMutableString stringWithString:[instagramCommentsForMediaItemURL stringByAppendingString:self.accessToken]];
+            
+            for (NSString *parameterName in parameters) {
+                // for example, if dictionary contains {count: 50}, append `&count=50` to the URL
+                [urlString appendFormat:@"&%@=%@", parameterName, parameters[parameterName]];
+            }
+            
+            NSURL *url = [NSURL URLWithString:urlString];
+            
+            if (url) {
+                
+                NSURLRequest *request = [NSURLRequest requestWithURL:url];
+                
+                NSURLResponse *response;
+                NSError *webError;
+                NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&webError];
+                
+                if (responseData) {
+                    NSError *jsonError;
+                    commentsDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&jsonError];
+                    
+                    //if there is no json error found
+                    if (!jsonError && [commentsDictionary objectForKey:@"data"]) {
+                        
+                        //holds an array of dictionary objects
+                        NSArray *dataArray = commentsDictionary[@"data"];
+                    
+                        NSLog(@"data for mediaItem %@ is %@/n/n", mediaItem.idNumber, dataArray);
+                        
+                        NSMutableArray *commentsForMediaItem = [NSMutableArray new];
+                        
+                        //loop through the comment information in dictionary format. 1 comment per iteration
+                        for (NSDictionary *comment in dataArray) {
+                            BLCComment *blcComment = [[BLCComment alloc] initWithDictionary:comment];
+                            [commentsForMediaItem addObject:blcComment];
+                        }
+                        
+                        //set the retrieved comments Array to the mediaItem
+                        mediaItem.comments = commentsForMediaItem;
+                        
+                    }
+                    
+                }
+                
+            }//if url
+            
+        }
+    
+    
+}
+
+
++(NSString*)commentURLForMediaItemWithID:(NSString*)identifier {
+    
+    NSString *fullURL = [NSMutableString stringWithFormat:@"https://api.instagram.com/v1/media/%@/comments?access_token=", identifier];
+    return fullURL;
 }
 
 @end
