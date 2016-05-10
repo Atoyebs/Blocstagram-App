@@ -211,7 +211,6 @@
     for (BLCMedia *mediaItem in _mediaItems) {
         
         NSBlockOperation *retrieveComments = [NSBlockOperation blockOperationWithBlock:^{
-            NSLog(@"mediaItem id = %@", mediaItem.idNumber);
             [self populateCommentDataWithParameters:@{@"scope": @"basic+public_content"} withMediaItem:mediaItem];
         }];
         
@@ -285,7 +284,13 @@
        
         //Need to add images here
         NSString *minID = [[self.mediaItems firstObject] idNumber];
-        NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"min_id": minID}];
+        
+        NSMutableDictionary *parameters = [NSMutableDictionary new];
+        
+        if(minID){
+            [parameters addEntriesFromDictionary:@{@"min_id": minID}];
+        }
+        
         [parameters addEntriesFromDictionary:@{@"scope": @"public_content"}];
         
         [self populateDataWithParameters:parameters completionHandler:^(NSError *error) {
@@ -360,8 +365,6 @@
                         
                         //holds an array of dictionary objects
                         NSArray *dataArray = commentsDictionary[@"data"];
-                    
-                        NSLog(@"data for mediaItem %@ is %@/n/n", mediaItem.idNumber, dataArray);
                         
                         NSMutableArray *commentsForMediaItem = [NSMutableArray new];
                         
