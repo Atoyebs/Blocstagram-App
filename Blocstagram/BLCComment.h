@@ -9,7 +9,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface BLCComment : NSObject
+@interface BLCComment : NSObject <NSCoding>
 
 @property (nonatomic, strong) NSString *idNumber;
 
