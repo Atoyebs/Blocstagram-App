@@ -59,8 +59,6 @@
             [self registerForAccessTokenNotification];
         }
         else {
-            [self populateDataWithParameters:nil completionHandler:nil];
-            
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 
                 //get the fullPath of the same file you saved/wrote to earlier
