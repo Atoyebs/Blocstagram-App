@@ -13,6 +13,8 @@
 #import "BLCMedia.h"
 #import "BLCComment.h"
 
+#import <UICKeyChainStore.h>
+
 
 @interface BLCDataSource() {
     
@@ -51,7 +53,37 @@
     self = [super init];
     
     if (self) {
-        [self registerForAccessTokenNotification];
+        self.accessToken = [UICKeyChainStore stringForKey:@"access token"];
+        
+        if(!self.accessToken){
+            [self registerForAccessTokenNotification];
+        }
+        else {
+            [self populateDataWithParameters:nil completionHandler:nil];
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                
+                //get the fullPath of the same file you saved/wrote to earlier
+                NSString *fullPath = [self pathForFilename:NSStringFromSelector(@selector(mediaItems))];
+                
+                //unarchive the file into the SAME DATA/OBJECT TYPE YOU SAVED/WROTE it with
+                NSArray *storedMediaItems = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
+                
+                //go back to the main queue as you've now finished the heavy lifting
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (storedMediaItems.count > 0) {
+                        NSMutableArray *mutableMediaItems = [storedMediaItems mutableCopy];
+                        
+                        [self willChangeValueForKey:@"mediaItems"];
+                         _mediaItems = mutableMediaItems;
+                        [self didChangeValueForKey:@"mediaItems"];
+                    } else {
+                        [self populateDataWithParameters:nil completionHandler:nil];
+                    }
+                });
+            });
+            
+        }
     }
     
     return self;
@@ -63,6 +95,8 @@
     [[NSNotificationCenter defaultCenter] addObserverForName:BLCLoginViewControllerDidGetAccessTokenNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         
         self.accessToken = note.object;
+        
+        [UICKeyChainStore setString:self.accessToken forKey:@"access token"];
         
         NSDictionary *appScope = @{@"scope": @"public_content"};
         
@@ -211,11 +245,30 @@
     for (BLCMedia *mediaItem in _mediaItems) {
         
         NSBlockOperation *retrieveComments = [NSBlockOperation blockOperationWithBlock:^{
-            NSLog(@"mediaItem id = %@", mediaItem.idNumber);
             [self populateCommentDataWithParameters:@{@"scope": @"basic+public_content"} withMediaItem:mediaItem];
         }];
         
         [commentRetreivalOperationQueue addOperation:retrieveComments];
+    }
+    
+    
+    if (tmpMediaItems.count > 0) {
+        // Write the changes to disk
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSUInteger numberOfItemsToSave = MIN(self.mediaItems.count, 50);
+            NSArray *mediaItemsToSave = [self.mediaItems subarrayWithRange:NSMakeRange(0, numberOfItemsToSave)];
+            
+            NSString *fullPath = [self pathForFilename:NSStringFromSelector(@selector(mediaItems))];
+            NSData *mediaItemData = [NSKeyedArchiver archivedDataWithRootObject:mediaItemsToSave];
+            
+            NSError *dataError;
+            BOOL wroteSuccessfully = [mediaItemData writeToFile:fullPath options:NSDataWritingAtomic | NSDataWritingFileProtectionCompleteUnlessOpen error:&dataError];
+            
+            if (!wroteSuccessfully) {
+                NSLog(@"Couldn't write file: %@", dataError);
+            }
+        });
+        
     }
     
 }
@@ -285,7 +338,13 @@
        
         //Need to add images here
         NSString *minID = [[self.mediaItems firstObject] idNumber];
-        NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"min_id": minID}];
+        
+        NSMutableDictionary *parameters = [NSMutableDictionary new];
+        
+        if(minID){
+            [parameters addEntriesFromDictionary:@{@"min_id": minID}];
+        }
+        
         [parameters addEntriesFromDictionary:@{@"scope": @"public_content"}];
         
         [self populateDataWithParameters:parameters completionHandler:^(NSError *error) {
@@ -360,8 +419,6 @@
                         
                         //holds an array of dictionary objects
                         NSArray *dataArray = commentsDictionary[@"data"];
-                    
-                        NSLog(@"data for mediaItem %@ is %@/n/n", mediaItem.idNumber, dataArray);
                         
                         NSMutableArray *commentsForMediaItem = [NSMutableArray new];
                         
@@ -385,6 +442,17 @@
     
 }
 
+#pragma mark - NSKeyed Archiver
+
+- (NSString *) pathForFilename:(NSString *) filename {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths firstObject];
+    NSString *dataPath = [documentsDirectory stringByAppendingPathComponent:filename];
+    return dataPath;
+}
+
+
+#pragma mark - Utilty Methods
 
 +(NSString*)commentURLForMediaItemWithID:(NSString*)identifier {
     
