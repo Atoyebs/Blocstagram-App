@@ -415,7 +415,7 @@
                     commentsDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&jsonError];
                     
                     //if there is no json error found
-                    if (!jsonError && [commentsDictionary objectForKey:@"data"]) {
+                    if (!jsonError && [commentsDictionary objectForKey:@"data"]){
                         
                         //holds an array of dictionary objects
                         NSArray *dataArray = commentsDictionary[@"data"];
