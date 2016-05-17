@@ -156,18 +156,45 @@
 - (void) downloadImageForMediaItem:(BLCMedia *)mediaItem {
     
     if (mediaItem.mediaURL && !mediaItem.image) {
-     
+        
+        mediaItem.downloadState = BLCMediaDownloadStateDownloadInProgress;
+        
         [self.instagramOperationManager GET:mediaItem.mediaURL.absoluteString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
             if ([responseObject isKindOfClass:[UIImage class]]) {
                 mediaItem.image = responseObject;
+                mediaItem.downloadState = BLCMediaDownloadStateHasImage;
                 NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
                 NSUInteger index = [mutableArrayWithKVO indexOfObject:mediaItem];
                 [mutableArrayWithKVO replaceObjectAtIndex:index withObject:mediaItem];
             }
+            else {
+                mediaItem.downloadState = BLCMediaDownloadStateNonRecoverableError;
+            }
         }
         failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            
             NSLog(@"Error downloading image: %@", error);
+            
+            mediaItem.downloadState = BLCMediaDownloadStateNonRecoverableError;
+            
+            if ([error.domain isEqualToString:NSURLErrorDomain]) {
+                // A networking problem
+                if (error.code == NSURLErrorTimedOut ||
+                    error.code == NSURLErrorCancelled ||
+                    error.code == NSURLErrorCannotConnectToHost ||
+                    error.code == NSURLErrorNetworkConnectionLost ||
+                    error.code == NSURLErrorNotConnectedToInternet ||
+                    error.code == kCFURLErrorInternationalRoamingOff ||
+                    error.code == kCFURLErrorCallIsActive ||
+                    error.code == kCFURLErrorDataNotAllowed ||
+                    error.code == kCFURLErrorRequestBodyStreamExhausted) {
+                    
+                    // It might work if we try again
+                    mediaItem.downloadState = BLCMediaDownloadStateNeedsImage;
+                }
+            }
+            
         }];
     }
     
@@ -185,7 +212,7 @@
         
         if (mediaItem) {
             [tmpMediaItems addObject:mediaItem];
-            [self downloadImageForMediaItem:mediaItem];
+//            [self downloadImageForMediaItem:mediaItem];
         }
     }
     
