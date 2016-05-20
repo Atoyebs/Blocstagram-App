@@ -127,11 +127,7 @@
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        
-        // Delete the row from the data source
-        NSLog(@"Delete Section entered succesfully");
 
         BLCMedia *item = [BLCDataSource sharedInstance].mediaItems[indexPath.row];
         [[BLCDataSource sharedInstance] deleteMediaItem:item];
@@ -245,6 +241,10 @@
 }
 
 
+- (void) cellDidPressLikeButton:(BLCMediaTableViewCell *)cell {
+    [[BLCDataSource sharedInstance] toggleLikeOnMediaItem:cell.mediaItem];
+}
+
 #pragma mark - BLCMediaTableViewCellDelegate
 
 - (void) cell:(BLCMediaTableViewCell *)cell didTapImageView:(UIImageView *)imageView {
@@ -278,6 +278,8 @@
         [self presentViewController:activityVC animated:YES completion:nil];
     }
 }
+
+
 
 /*
 // Override to support rearranging the table view.

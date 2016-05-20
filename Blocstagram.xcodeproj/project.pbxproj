@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3CA04DAB0746EB14E9502A76 /* libPods-Blocstagram.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B19F8620CAAEDD77BAD907D3 /* libPods-Blocstagram.a */; };
 		8173BBCE1CCA5FFA00839D26 /* BLCMediaTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8173BBCD1CCA5FFA00839D26 /* BLCMediaTableViewCell.m */; };
+		8182A2601CEE1D0B003FD15C /* BLCCircleSpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8182A25F1CEE1D0B003FD15C /* BLCCircleSpinnerView.m */; };
+		8182A2631CEE2031003FD15C /* BLCLikeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8182A2621CEE2031003FD15C /* BLCLikeButton.m */; };
 		818342B91CD107AA0034815D /* BLCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 818342B81CD107AA0034815D /* BLCLoginViewController.m */; };
 		818342C01CD244D90034815D /* back_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 818342BF1CD244D90034815D /* back_arrow.png */; };
 		81BBF1C81CE5EA14005DBDCD /* BLCMediaFullScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81BBF1C71CE5EA14005DBDCD /* BLCMediaFullScreenViewController.m */; };
@@ -66,6 +68,10 @@
 /* Begin PBXFileReference section */
 		8173BBCC1CCA5FFA00839D26 /* BLCMediaTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCMediaTableViewCell.h; sourceTree = "<group>"; };
 		8173BBCD1CCA5FFA00839D26 /* BLCMediaTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCMediaTableViewCell.m; sourceTree = "<group>"; };
+		8182A25E1CEE1D0B003FD15C /* BLCCircleSpinnerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCCircleSpinnerView.h; sourceTree = "<group>"; };
+		8182A25F1CEE1D0B003FD15C /* BLCCircleSpinnerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCCircleSpinnerView.m; sourceTree = "<group>"; };
+		8182A2611CEE2031003FD15C /* BLCLikeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCLikeButton.h; sourceTree = "<group>"; };
+		8182A2621CEE2031003FD15C /* BLCLikeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCLikeButton.m; sourceTree = "<group>"; };
 		818342B71CD107AA0034815D /* BLCLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCLoginViewController.h; sourceTree = "<group>"; };
 		818342B81CD107AA0034815D /* BLCLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCLoginViewController.m; sourceTree = "<group>"; };
 		818342BF1CD244D90034815D /* back_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back_arrow.png; sourceTree = "<group>"; };
@@ -158,6 +164,10 @@
 			children = (
 				8173BBCC1CCA5FFA00839D26 /* BLCMediaTableViewCell.h */,
 				8173BBCD1CCA5FFA00839D26 /* BLCMediaTableViewCell.m */,
+				8182A25E1CEE1D0B003FD15C /* BLCCircleSpinnerView.h */,
+				8182A25F1CEE1D0B003FD15C /* BLCCircleSpinnerView.m */,
+				8182A2611CEE2031003FD15C /* BLCLikeButton.h */,
+				8182A2621CEE2031003FD15C /* BLCLikeButton.m */,
 			);
 			name = "Custom UI Elements";
 			sourceTree = "<group>";
@@ -537,10 +547,12 @@
 				81D213061CF3373600A15F0A /* UICKeyChainStore in Sources */,
 				81FB9DE51CC924D30026965A /* AppDelegate.m in Sources */,
 				81BBF1DB1CE6367C005DBDCD /* BLCMediaFullScreenAnimator.m in Sources */,
+				8182A2631CEE2031003FD15C /* BLCLikeButton.m in Sources */,
 				8173BBCE1CCA5FFA00839D26 /* BLCMediaTableViewCell.m in Sources */,
 				81FB9E341CC93B6C0026965A /* BLCMedia.m in Sources */,
 				81FB9DE21CC924D30026965A /* main.m in Sources */,
 				81FB9E2D1CC926FE0026965A /* BLCImagesTableViewController.m in Sources */,
+				8182A2601CEE1D0B003FD15C /* BLCCircleSpinnerView.m in Sources */,
 				81FB9E311CC93B620026965A /* BLCUser.m in Sources */,
 				81BBF1C81CE5EA14005DBDCD /* BLCMediaFullScreenViewController.m in Sources */,
 				81FB9E3B1CC93D350026965A /* BLCDataSource.m in Sources */,

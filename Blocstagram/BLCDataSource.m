@@ -70,6 +70,7 @@
         if(!self.accessToken){
             
             [self registerForAccessTokenNotification];
+            
         }
         else {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -111,7 +112,7 @@
         
         [UICKeyChainStore setString:self.accessToken forKey:@"access token"];
         
-        NSDictionary *appScope = @{@"scope": @"public_content"};
+        NSDictionary *appScope = @{@"scope": @"public_content+likes+comments"};
         
         [self populateDataWithParameters:appScope completionHandler:nil];
     }];
@@ -248,7 +249,7 @@
     for (BLCMedia *mediaItem in _mediaItems) {
         
         NSBlockOperation *retrieveComments = [NSBlockOperation blockOperationWithBlock:^{
-            [self populateCommentDataWithParameters:@{@"scope": @"basic+public_content"} withMediaItem:mediaItem];
+            [self populateCommentDataWithParameters:@{@"scope": @"basic+public_content+likes"} withMediaItem:mediaItem];
         }];
         
         [commentRetreivalOperationQueue addOperation:retrieveComments];
@@ -461,6 +462,55 @@
     
     NSString *fullURL = [NSMutableString stringWithFormat:@"https://api.instagram.com/v1/media/%@/comments?access_token=", identifier];
     return fullURL;
+}
+
+#pragma mark - Liking Media Items
+
+- (void) toggleLikeOnMediaItem:(BLCMedia *)mediaItem {
+    NSString *urlString = [NSString stringWithFormat:@"media/%@/likes", mediaItem.idNumber];
+    NSMutableDictionary *parameters = [@{@"access_token": self.accessToken} mutableCopy];
+    
+    if (mediaItem.likeState == BLCLikeStateNotLiked) {
+        
+        mediaItem.likeState = BLCLikeStateLiking;
+
+        [self.instagramOperationManager POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            mediaItem.likeState = BLCLikeStateLiked;
+            [self reloadMediaItem:mediaItem];
+        }
+        failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            mediaItem.likeState = BLCLikeStateNotLiked;
+            [self reloadMediaItem:mediaItem];
+        }];
+        
+        
+        
+    } else if (mediaItem.likeState == BLCLikeStateLiked) {
+        
+        mediaItem.likeState = BLCLikeStateUnliking;
+        
+        [self.instagramOperationManager DELETE:urlString parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            mediaItem.likeState = BLCLikeStateNotLiked;
+            [self reloadMediaItem:mediaItem];
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            mediaItem.likeState = BLCLikeStateLiked;
+            [self reloadMediaItem:mediaItem];
+        }];
+        
+        
+    }
+    
+    [self reloadMediaItem:mediaItem];
+}
+
+
+
+
+
+- (void) reloadMediaItem:(BLCMedia *)mediaItem {
+    NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
+    NSUInteger index = [mutableArrayWithKVO indexOfObject:mediaItem];
+    [mutableArrayWithKVO replaceObjectAtIndex:index withObject:mediaItem];
 }
 
 @end
