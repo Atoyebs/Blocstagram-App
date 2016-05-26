@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3CA04DAB0746EB14E9502A76 /* libPods-Blocstagram.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B19F8620CAAEDD77BAD907D3 /* libPods-Blocstagram.a */; };
+		816196F11CF71C55008A9492 /* BLCComposeCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 816196F01CF71C55008A9492 /* BLCComposeCommentView.m */; };
 		8173BBCE1CCA5FFA00839D26 /* BLCMediaTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8173BBCD1CCA5FFA00839D26 /* BLCMediaTableViewCell.m */; };
 		8182A2601CEE1D0B003FD15C /* BLCCircleSpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8182A25F1CEE1D0B003FD15C /* BLCCircleSpinnerView.m */; };
 		8182A2631CEE2031003FD15C /* BLCLikeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8182A2621CEE2031003FD15C /* BLCLikeButton.m */; };
@@ -66,6 +67,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		816196EF1CF71C55008A9492 /* BLCComposeCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCComposeCommentView.h; sourceTree = "<group>"; };
+		816196F01CF71C55008A9492 /* BLCComposeCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCComposeCommentView.m; sourceTree = "<group>"; };
 		8173BBCC1CCA5FFA00839D26 /* BLCMediaTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCMediaTableViewCell.h; sourceTree = "<group>"; };
 		8173BBCD1CCA5FFA00839D26 /* BLCMediaTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCMediaTableViewCell.m; sourceTree = "<group>"; };
 		8182A25E1CEE1D0B003FD15C /* BLCCircleSpinnerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCCircleSpinnerView.h; sourceTree = "<group>"; };
@@ -168,6 +171,8 @@
 				8182A25F1CEE1D0B003FD15C /* BLCCircleSpinnerView.m */,
 				8182A2611CEE2031003FD15C /* BLCLikeButton.h */,
 				8182A2621CEE2031003FD15C /* BLCLikeButton.m */,
+				816196EF1CF71C55008A9492 /* BLCComposeCommentView.h */,
+				816196F01CF71C55008A9492 /* BLCComposeCommentView.m */,
 			);
 			name = "Custom UI Elements";
 			sourceTree = "<group>";
@@ -550,6 +555,7 @@
 				8182A2631CEE2031003FD15C /* BLCLikeButton.m in Sources */,
 				8173BBCE1CCA5FFA00839D26 /* BLCMediaTableViewCell.m in Sources */,
 				81FB9E341CC93B6C0026965A /* BLCMedia.m in Sources */,
+				816196F11CF71C55008A9492 /* BLCComposeCommentView.m in Sources */,
 				81FB9DE21CC924D30026965A /* main.m in Sources */,
 				81FB9E2D1CC926FE0026965A /* BLCImagesTableViewController.m in Sources */,
 				8182A2601CEE1D0B003FD15C /* BLCCircleSpinnerView.m in Sources */,
