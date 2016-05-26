@@ -464,6 +464,7 @@
     return fullURL;
 }
 
+
 #pragma mark - Liking Media Items
 
 - (void) toggleLikeOnMediaItem:(BLCMedia *)mediaItem {
@@ -503,7 +504,40 @@
     [self reloadMediaItem:mediaItem];
 }
 
+#pragma mark - Comments
 
+- (void) commentOnMediaItem:(BLCMedia *)mediaItem withCommentText:(NSString *)commentText {
+    if (!commentText || commentText.length == 0) {
+        return;
+    }
+    
+    NSString *urlString = [NSString stringWithFormat:@"media/%@/comments", mediaItem.idNumber];
+    NSDictionary *parameters = @{@"access_token": self.accessToken, @"text": commentText};
+    
+    [self.instagramOperationManager POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSString *refreshMediaUrlString = [NSString stringWithFormat:@"media/%@", mediaItem.idNumber];
+        NSDictionary *parameters = @{@"access_token": self.accessToken};
+        
+        [self.instagramOperationManager GET:refreshMediaUrlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            BLCMedia *newMediaItem = [[BLCMedia alloc] initWithDictionary:responseObject[@"data"]];
+            NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
+            NSUInteger index = [mutableArrayWithKVO indexOfObject:mediaItem];
+            [mutableArrayWithKVO replaceObjectAtIndex:index withObject:newMediaItem];
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            [self reloadMediaItem:mediaItem];
+        }];
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"Error: %@", error);
+        NSLog(@"Response: %@", task.response);
+        [self reloadMediaItem:mediaItem];
+    }];
+    
+}
 
 
 
