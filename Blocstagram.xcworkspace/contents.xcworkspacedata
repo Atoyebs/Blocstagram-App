@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:BLCCameraViewController.h">
+   </FileRef>
+   <FileRef
+      location = "group:BLCCameraViewController.m">
+   </FileRef>
+   <FileRef
       location = "group:Blocstagram.xcodeproj">
    </FileRef>
    <FileRef
