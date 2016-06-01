@@ -7,6 +7,7 @@
 //
 
 #import "UIImage+BLCImageUtilities.h"
+#import "BLCCameraViewController.h"
 
 @implementation UIImage (BLCImageUtilities)
 
@@ -130,8 +131,6 @@
 }
 
 
-
-
 - (UIImage *) imageCroppedToRect:(CGRect)cropRect {
     cropRect.size.width *= self.scale;
     cropRect.size.height *= self.scale;
@@ -142,6 +141,24 @@
     UIImage *image = [UIImage imageWithCGImage:imageRef scale:self.scale orientation:self.imageOrientation];
     CGImageRelease(imageRef);
     return image;
+}
+
+
+- (UIImage *) imageByScalingToSize:(CGSize)size andCroppingWithRect:(CGRect)rect {
+    
+    UIImage *resultImage = self;
+    
+    resultImage = [resultImage imageWithFixedOrientation];
+    
+    resultImage = [resultImage imageResizedToMatchAspectRatioOfSize:size];
+    
+    CGRect cropRect = rect;
+    cropRect.origin.x = (CGRectGetMinX(rect) + (resultImage.size.width - CGRectGetWidth(rect)) / 2);
+    
+    resultImage = [resultImage imageCroppedToRect:rect];
+    
+    return resultImage;
+    
 }
 
 

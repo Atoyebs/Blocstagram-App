@@ -20,5 +20,7 @@
 @interface BLCCameraViewController : UIViewController
 
 @property (nonatomic, weak) NSObject <BLCCameraViewControllerDelegate> *delegate;
+@property (nonatomic, strong) NSArray *horizontalLines;
+@property (nonatomic, strong) NSArray *verticalLines;
 
 @end
