@@ -10,7 +10,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "BLCCropImageViewController.h"
 
-@interface BLCImageLibraryViewController () <BLCCropImageViewControllerDelegate>
+@interface BLCImageLibraryViewController () <BLCCropImageViewControllerDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) ALAssetsLibrary *library;
 
@@ -60,6 +60,7 @@
 
 
 - (void) viewWillLayoutSubviews {
+    
     [super viewWillLayoutSubviews];
     
     CGFloat width = CGRectGetWidth(self.view.frame);
@@ -68,9 +69,9 @@
     CGFloat cellSize = width / divisor;
     
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionViewLayout;
-    flowLayout.itemSize = CGSizeMake(cellSize, cellSize);
+//    flowLayout.itemSize = CGSizeMake(cellSize, cellSize);
     flowLayout.minimumInteritemSpacing = 0;
-    flowLayout.minimumLineSpacing = 0;
+    flowLayout.minimumLineSpacing = 21;
     flowLayout.headerReferenceSize = CGSizeMake(width, 30);
 }
 
@@ -229,6 +230,21 @@
 }
 
 
+
+#pragma mark - UICollectionViewDelegateFlowLayout
+
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    ALAsset *asset = self.arraysOfAssets[indexPath.section][indexPath.row];
+    
+    ALAssetRepresentation *representation = [asset defaultRepresentation];
+
+    CGSize sizeRepresentation = [representation dimensions];
+    
+    sizeRepresentation = CGSizeMake(sizeRepresentation.width/13, sizeRepresentation.height/13);
+    
+    return sizeRepresentation;
+}
 
 
 @end
