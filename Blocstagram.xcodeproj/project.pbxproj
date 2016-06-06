@@ -29,8 +29,6 @@
 		81BBF1D51CE602FF005DBDCD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BBF1D41CE602FF005DBDCD /* UIKit.framework */; };
 		81BBF1D71CE60470005DBDCD /* libReveal.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 81BBF1C91CE60254005DBDCD /* libReveal.dylib */; };
 		81BBF1DB1CE6367C005DBDCD /* BLCMediaFullScreenAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 81BBF1DA1CE6367C005DBDCD /* BLCMediaFullScreenAnimator.m */; };
-		81D213051CF3373600A15F0A /* AFNetworking in Sources */ = {isa = PBXBuildFile; fileRef = 81D213031CF3373600A15F0A /* AFNetworking */; };
-		81D213061CF3373600A15F0A /* UICKeyChainStore in Sources */ = {isa = PBXBuildFile; fileRef = 81D213041CF3373600A15F0A /* UICKeyChainStore */; };
 		81FB9DE21CC924D30026965A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FB9DE11CC924D30026965A /* main.m */; };
 		81FB9DE51CC924D30026965A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FB9DE41CC924D30026965A /* AppDelegate.m */; };
 		81FB9DED1CC924D30026965A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81FB9DEC1CC924D30026965A /* Assets.xcassets */; };
@@ -107,8 +105,6 @@
 		81BBF1D41CE602FF005DBDCD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		81BBF1D91CE6367C005DBDCD /* BLCMediaFullScreenAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCMediaFullScreenAnimator.h; sourceTree = "<group>"; };
 		81BBF1DA1CE6367C005DBDCD /* BLCMediaFullScreenAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCMediaFullScreenAnimator.m; sourceTree = "<group>"; };
-		81D213031CF3373600A15F0A /* AFNetworking */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AFNetworking; path = Pods/AFNetworking; sourceTree = "<group>"; };
-		81D213041CF3373600A15F0A /* UICKeyChainStore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = UICKeyChainStore; path = Pods/UICKeyChainStore; sourceTree = "<group>"; };
 		81FB9DDD1CC924D30026965A /* Blocstagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blocstagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81FB9DE11CC924D30026965A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		81FB9DE31CC924D30026965A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -228,8 +224,6 @@
 		81FB9DD41CC924D30026965A = {
 			isa = PBXGroup;
 			children = (
-				81D213031CF3373600A15F0A /* AFNetworking */,
-				81D213041CF3373600A15F0A /* UICKeyChainStore */,
 				81BBF1C91CE60254005DBDCD /* libReveal.dylib */,
 				81FB9DDF1CC924D30026965A /* Blocstagram */,
 				81FB9DF91CC924D30026965A /* BlocstagramTests */,
@@ -587,9 +581,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81D213051CF3373600A15F0A /* AFNetworking in Sources */,
 				8153E3261D00565900755083 /* BLCCropBox.m in Sources */,
-				81D213061CF3373600A15F0A /* UICKeyChainStore in Sources */,
 				81FB9DE51CC924D30026965A /* AppDelegate.m in Sources */,
 				81BBF1DB1CE6367C005DBDCD /* BLCMediaFullScreenAnimator.m in Sources */,
 				8182A2631CEE2031003FD15C /* BLCLikeButton.m in Sources */,
@@ -748,7 +740,7 @@
 			baseConfigurationReference = 858793660AFC044CC957A00A /* Pods-Blocstagram.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: I O Atoyebi (TPKXL9FM52)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: I O Atoyebi (TPKXL9FM52)";
 				INFOPLIST_FILE = Blocstagram/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
@@ -764,7 +756,7 @@
 			baseConfigurationReference = 947E1F4AF65E103FB6B902E5 /* Pods-Blocstagram.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: I O Atoyebi (TPKXL9FM52)";
 				INFOPLIST_FILE = Blocstagram/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
