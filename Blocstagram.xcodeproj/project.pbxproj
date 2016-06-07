@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3CA04DAB0746EB14E9502A76 /* libPods-Blocstagram.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B19F8620CAAEDD77BAD907D3 /* libPods-Blocstagram.a */; };
+		8130A8211D0705E1007EFD2B /* BLCPostToInstagramViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8130A8201D0705E1007EFD2B /* BLCPostToInstagramViewController.m */; };
 		8153E3261D00565900755083 /* BLCCropBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 8153E3251D00565900755083 /* BLCCropBox.m */; };
 		8153E3291D0059DE00755083 /* BLCCropImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8153E3281D0059DE00755083 /* BLCCropImageViewController.m */; };
 		8153E32C1D005C6400755083 /* BLCImageLibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8153E32B1D005C6400755083 /* BLCImageLibraryViewController.m */; };
@@ -73,6 +74,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8130A81F1D0705E1007EFD2B /* BLCPostToInstagramViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCPostToInstagramViewController.h; sourceTree = "<group>"; };
+		8130A8201D0705E1007EFD2B /* BLCPostToInstagramViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCPostToInstagramViewController.m; sourceTree = "<group>"; };
 		8153E3241D00565900755083 /* BLCCropBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCCropBox.h; sourceTree = "<group>"; };
 		8153E3251D00565900755083 /* BLCCropBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCCropBox.m; sourceTree = "<group>"; };
 		8153E3271D0059DE00755083 /* BLCCropImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCCropImageViewController.h; sourceTree = "<group>"; };
@@ -330,6 +333,8 @@
 				8153E3281D0059DE00755083 /* BLCCropImageViewController.m */,
 				8153E32A1D005C6400755083 /* BLCImageLibraryViewController.h */,
 				8153E32B1D005C6400755083 /* BLCImageLibraryViewController.m */,
+				8130A81F1D0705E1007EFD2B /* BLCPostToInstagramViewController.h */,
+				8130A8201D0705E1007EFD2B /* BLCPostToInstagramViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -604,6 +609,7 @@
 				81FB9E311CC93B620026965A /* BLCUser.m in Sources */,
 				81BBF1C81CE5EA14005DBDCD /* BLCMediaFullScreenViewController.m in Sources */,
 				81FB9E3B1CC93D350026965A /* BLCDataSource.m in Sources */,
+				8130A8211D0705E1007EFD2B /* BLCPostToInstagramViewController.m in Sources */,
 				815D1F311CFE0CDF00CF2480 /* UIImage+BLCImageUtilities.m in Sources */,
 				815D1F2A1CFE081E00CF2480 /* BLCCameraToolbar.m in Sources */,
 				81FB9E371CC93B7D0026965A /* BLCComment.m in Sources */,
@@ -748,7 +754,7 @@
 			baseConfigurationReference = 858793660AFC044CC957A00A /* Pods-Blocstagram.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: I O Atoyebi (TPKXL9FM52)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: I O Atoyebi (TPKXL9FM52)";
 				INFOPLIST_FILE = Blocstagram/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
@@ -764,7 +770,7 @@
 			baseConfigurationReference = 947E1F4AF65E103FB6B902E5 /* Pods-Blocstagram.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: I O Atoyebi (TPKXL9FM52)";
 				INFOPLIST_FILE = Blocstagram/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
