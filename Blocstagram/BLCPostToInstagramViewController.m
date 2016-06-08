@@ -215,7 +215,6 @@
         if (falseColorFilter) {
             
             [falseColorFilter setValue:sourceCIImage forKey:kCIInputImageKey];
-//            [self addCIImageToCollectionView:falseColorFilter.outputImage withFilterTitle:NSLocalizedString(@"Ini", @"Ini Filter")];
             CIImage *result = falseColorFilter.outputImage;
             
             if(posterizeFilter){
@@ -228,6 +227,21 @@
         
         
     }];
+    
+    
+    //Ini Filter 2
+    [self.photoFilterOperationQueue addOperationWithBlock:^{
+       
+        CIFilter *colorMapFilter = [CIFilter filterWithName:@"CIColorInvert"];
+        
+        if (colorMapFilter) {
+            NSLog(@"setting up Ini Filter 2");
+            [colorMapFilter setValue:sourceCIImage forKey:kCIInputImageKey];
+            [self addCIImageToCollectionView:colorMapFilter.outputImage withFilterTitle:NSLocalizedString(@"Ini2", @"Ini Filter 2")];
+        }
+        
+    }];
+    
     
     // Boom filter
     [self.photoFilterOperationQueue addOperationWithBlock:^{
