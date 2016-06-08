@@ -193,10 +193,10 @@
 
 
 - (void) addFiltersToQueue {
+    
     CIImage *sourceCIImage = [CIImage imageWithCGImage:self.sourceImage.CGImage];
     
     // Noir filter
-    
     [self.photoFilterOperationQueue addOperationWithBlock:^{
         CIFilter *noirFilter = [CIFilter filterWithName:@"CIPhotoEffectNoir"];
         
@@ -206,9 +206,30 @@
         }
     }];
     
+    //Ini Filter
+    [self.photoFilterOperationQueue addOperationWithBlock:^{
+        
+        CIFilter *falseColorFilter = [CIFilter filterWithName:@"CIFalseColor"];
+        CIFilter *posterizeFilter = [CIFilter filterWithName:@"CIColorPosterize"];
+        
+        if (falseColorFilter) {
+            
+            [falseColorFilter setValue:sourceCIImage forKey:kCIInputImageKey];
+//            [self addCIImageToCollectionView:falseColorFilter.outputImage withFilterTitle:NSLocalizedString(@"Ini", @"Ini Filter")];
+            CIImage *result = falseColorFilter.outputImage;
+            
+            if(posterizeFilter){
+                [posterizeFilter setValue:result forKey:kCIInputImageKey];
+                result = posterizeFilter.outputImage;
+            }
+            
+            [self addCIImageToCollectionView:result withFilterTitle:NSLocalizedString(@"Ini1", @"Ini Filter 1")];
+        }
+        
+        
+    }];
     
     // Boom filter
-    
     [self.photoFilterOperationQueue addOperationWithBlock:^{
         CIFilter *boomFilter = [CIFilter filterWithName:@"CIPhotoEffectProcess"];
         
@@ -218,8 +239,8 @@
         }
     }];
     
-    // Warm filter
     
+    // Warm filter
     [self.photoFilterOperationQueue addOperationWithBlock:^{
         CIFilter *warmFilter = [CIFilter filterWithName:@"CIPhotoEffectTransfer"];
         
@@ -229,8 +250,8 @@
         }
     }];
     
-    // Pixel filter
     
+    // Pixel filter
     [self.photoFilterOperationQueue addOperationWithBlock:^{
         CIFilter *pixelFilter = [CIFilter filterWithName:@"CIPixellate"];
         
@@ -240,8 +261,8 @@
         }
     }];
     
-    // Moody filter
     
+    // Moody filter
     [self.photoFilterOperationQueue addOperationWithBlock:^{
         CIFilter *moodyFilter = [CIFilter filterWithName:@"CISRGBToneCurveToLinear"];
         
@@ -251,8 +272,8 @@
         }
     }];
     
-    // Drunk filter
     
+    // Drunk filter
     [self.photoFilterOperationQueue addOperationWithBlock:^{
         CIFilter *drunkFilter = [CIFilter filterWithName:@"CIConvolution5X5"];
         CIFilter *tiltFilter = [CIFilter filterWithName:@"CIStraightenFilter"];
@@ -277,7 +298,6 @@
     
     
     // Film filter
-    
     [self.photoFilterOperationQueue addOperationWithBlock:^{
         CIFilter *sepiaFilter = [CIFilter filterWithName:@"CISepiaTone"];
         [sepiaFilter setValue:@1 forKey:kCIInputIntensityKey];
@@ -328,6 +348,8 @@
             [self addCIImageToCollectionView:composite.outputImage withFilterTitle:NSLocalizedString(@"Film", @"Film Filter")];
         }
     }];
+    
+    
     
     
 }
