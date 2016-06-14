@@ -7,6 +7,7 @@
 //
 
 #import "BLCPostToInstagramViewController.h"
+#import "BLCDataSource.h"
 
 @interface BLCPostToInstagramViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIAlertViewDelegate, UIDocumentInteractionControllerDelegate>
 
@@ -24,6 +25,7 @@
 
 @property (nonatomic, strong) UIDocumentInteractionController *documentController;
 
+
 @end
 
 @implementation BLCPostToInstagramViewController
@@ -39,6 +41,7 @@
         self.previewImageView = [[UIImageView alloc] initWithImage:self.sourceImage];
         
         self.photoFilterOperationQueue = [[NSOperationQueue alloc] init];
+        self.photoFilterOperationQueue.maxConcurrentOperationCount = 1;
         
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
         flowLayout.itemSize = CGSizeMake(44, 64);
@@ -47,8 +50,7 @@
         flowLayout.minimumLineSpacing = 10;
         
         self.filterCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
-        self.filterCollectionView.dataSource = self;
-        self.filterCollectionView.delegate = self;
+        
         self.filterCollectionView.showsHorizontalScrollIndicator = NO;
         
         self.filterImages = [NSMutableArray arrayWithObject:sourceImage];
@@ -62,7 +64,7 @@
         
         self.sendBarButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Send", @"Send button") style:UIBarButtonItemStyleDone target:self action:@selector(sendButtonPressed:)];
         
-        [self addFiltersToQueue];
+        
     }
     
     return self;
@@ -74,7 +76,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    NSLog(@"CollectionViewController viewDidLoad");
+    self.filterCollectionView.dataSource = self;
+    self.filterCollectionView.delegate = self;
     [self.view addSubview:self.previewImageView];
     [self.view addSubview:self.filterCollectionView];
     
@@ -90,8 +94,14 @@
     self.filterCollectionView.backgroundColor = [UIColor whiteColor];
     
     self.navigationItem.title = NSLocalizedString(@"Apply Filter", @"apply filter view title");
+    
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    NSLog(@"CollectionViewController viewDidAppear");
+    [self addFiltersToQueue];
+}
 
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
@@ -145,6 +155,7 @@
 
 
 - (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    NSLog(@"Count of filterImages = %ld In numberOfItemsInSection method", self.filterImages.count);
     return self.filterImages.count;
 }
 
@@ -207,14 +218,16 @@
             
             [self.filterImages addObject:image];
             [self.filterTitles addObject:filterTitle];
-            
+            NSLog(@"Count of filterImages = %ld In addCIImageToCollectionView", self.filterImages.count);
             [self.filterCollectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:newIndex inSection:0]]];
+
         });
     }
 }
 
 
 - (void) addFiltersToQueue {
+    
     CIImage *sourceCIImage = [CIImage imageWithCGImage:self.sourceImage.CGImage];
     
     // Noir filter
@@ -299,7 +312,6 @@
     
     
     // Film filter
-    
     [self.photoFilterOperationQueue addOperationWithBlock:^{
         CIFilter *sepiaFilter = [CIFilter filterWithName:@"CISepiaTone"];
         [sepiaFilter setValue:@1 forKey:kCIInputIntensityKey];
