@@ -416,17 +416,10 @@
     if (cell.mediaItem.image) {
         [itemsToShare addObject:cell.mediaItem.image];
     }
-
-    
-    if(isPhone){
         
-        if (itemsToShare.count > 0) {
-            UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
-            [self presentViewController:activityVC animated:YES completion:nil];
-        }
-    }
-    else {
-        
+    if (itemsToShare.count > 0) {
+        UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
+           [self presentViewController:activityVC animated:YES completion:nil];
     }
     
     
