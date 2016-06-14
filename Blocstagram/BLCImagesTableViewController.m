@@ -428,8 +428,6 @@
     
     if(activityVC){
         
-        CGSize screenSize = [UIScreen mainScreen].bounds.size;
-        
         NSIndexPath *clickedCellIndexPath = [NSIndexPath indexPathForRow:cell.tag inSection:0];
         CGRect clickedCellRect = [self.tableView rectForRowAtIndexPath:clickedCellIndexPath];
         self.lastSelectedCellOnLongPress = cell;
