@@ -18,6 +18,8 @@ typedef void (^BLCNewItemCompletionBlock)(NSError *error);
 @interface BLCDataSource : NSObject
 
 
+extern NSString *const BLCImageFinishedNotification;
+
 #pragma mark - Methods
 
 +(instancetype)sharedInstance;
