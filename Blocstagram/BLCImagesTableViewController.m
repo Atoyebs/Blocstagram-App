@@ -27,6 +27,7 @@
 @property (nonatomic, weak) UIView *lastSelectedCommentView;
 @property (nonatomic, assign) CGFloat lastKeyboardAdjustment;
 @property (nonatomic, strong) UIPopoverController *cameraPopover;
+@property (nonatomic, strong) UIPopoverController *activityIndicatorPopover;
 
 @end
 
@@ -128,7 +129,7 @@
     BLCMediaTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mediaCell" forIndexPath:indexPath];
     cell.delegate = self;
     cell.mediaItem = [self items][indexPath.row];
-    
+    cell.tag = indexPath.row;
     return cell;
 }
 
@@ -417,18 +418,31 @@
         [itemsToShare addObject:cell.mediaItem.image];
     }
 
+    UIActivityViewController *activityVC;
     
-    if(isPhone){
+    if (itemsToShare.count > 0) {
+        activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
+    }
+    
+    if(activityVC){
         
-        if (itemsToShare.count > 0) {
-            UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
+        NSIndexPath *clickedCellIndexPath = [NSIndexPath indexPathForRow:cell.tag inSection:0];
+        
+        CGRect clickedCellRect = [self.tableView rectForRowAtIndexPath:clickedCellIndexPath];
+        
+        if(isPhone){
+            
             [self presentViewController:activityVC animated:YES completion:nil];
+            
+        }
+        else {
+            
+            NSLog(@"iPad popover");
+            self.activityIndicatorPopover = [[UIPopoverController alloc] initWithContentViewController:activityVC];
+            self.activityIndicatorPopover.popoverContentSize = CGSizeMake(568, 300);
+            [self.activityIndicatorPopover presentPopoverFromRect:clickedCellRect inView:self.tableView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
         }
     }
-    else {
-        
-    }
-    
     
         
 }
