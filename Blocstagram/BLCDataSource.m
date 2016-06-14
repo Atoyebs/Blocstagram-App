@@ -35,6 +35,8 @@
 
 @implementation BLCDataSource
 
+NSString *const BLCImageFinishedNotification = @"BLCImageFinishedNotification";
+
 #pragma mark - Class Constructors
 
 + (instancetype) sharedInstance {
@@ -119,6 +121,10 @@
 
 }
 
+
+- (void)documentInteractionController:(UIDocumentInteractionController *)controller didEndSendingToApplication:(NSString *)application {
+    [[NSNotificationCenter defaultCenter] postNotificationName:BLCImageFinishedNotification object:self];
+}
 
 
 - (void) populateDataWithParameters:(NSDictionary *)parameters completionHandler:(BLCNewItemCompletionBlock)completionHandler {

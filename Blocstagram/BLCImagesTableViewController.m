@@ -18,6 +18,7 @@
 #import "BLCCameraViewController.h"
 #import "BLCImageLibraryViewController.h"
 #import "BLCPostToInstagramViewController.h"
+#import "Blocstagram-Prefix.pch"
 
 
 @interface BLCImagesTableViewController () <BLCMediaTableViewCellDelegate, UIViewControllerTransitioningDelegate, BLCCameraViewControllerDelegate, BLCImageLibraryViewControllerDelegate>
@@ -25,6 +26,7 @@
 @property (nonatomic, weak) UIImageView *lastTappedImageView;
 @property (nonatomic, weak) UIView *lastSelectedCommentView;
 @property (nonatomic, assign) CGFloat lastKeyboardAdjustment;
+@property (nonatomic, strong) UIPopoverController *cameraPopover;
 
 @end
 
@@ -79,6 +81,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(imageDidFinish:)
+                                                 name:BLCImageFinishedNotification
                                                object:nil];
     
 }
@@ -386,8 +393,13 @@
     
     NSLog(@"Media Item at this point has caption = %@", cell.mediaItem.caption );
     
-    fullScreenVC.transitioningDelegate = self;
-    fullScreenVC.modalPresentationStyle = UIModalPresentationCustom;
+    if (isPhone) {
+        fullScreenVC.transitioningDelegate = self;
+        fullScreenVC.modalPresentationStyle = UIModalPresentationCustom;
+    }
+    else {
+        fullScreenVC.modalPresentationStyle = UIModalPresentationFormSheet;
+    }
     
     [self presentViewController:fullScreenVC animated:YES completion:nil];
 }
@@ -404,11 +416,14 @@
     if (cell.mediaItem.image) {
         [itemsToShare addObject:cell.mediaItem.image];
     }
-    
+        
     if (itemsToShare.count > 0) {
         UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
-        [self presentViewController:activityVC animated:YES completion:nil];
+           [self presentViewController:activityVC animated:YES completion:nil];
     }
+    
+    
+        
 }
 
 
@@ -433,7 +448,15 @@
     
     if (imageVC) {
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:imageVC];
-        [self presentViewController:nav animated:YES completion:nil];
+        
+        if (isPhone) {
+            [self presentViewController:nav animated:YES completion:nil];
+        } else {
+            self.cameraPopover = [[UIPopoverController alloc] initWithContentViewController:nav];
+            self.cameraPopover.popoverContentSize = CGSizeMake(320, 568);
+            [self.cameraPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        }
+        
     }
     
     return;
@@ -453,12 +476,33 @@
 - (void) handleImage:(UIImage *)image withNavigationController:(UINavigationController *)nav {
     if (image) {
         BLCPostToInstagramViewController *postVC = [[BLCPostToInstagramViewController alloc] initWithImage:image];
+        [postVC view];
         
         [nav pushViewController:postVC animated:YES];
     } else {
-        [nav dismissViewControllerAnimated:YES completion:nil];
+        
+        if (isPhone) {
+            [nav dismissViewControllerAnimated:YES completion:nil];
+        } else {
+            [self.cameraPopover dismissPopoverAnimated:YES];
+            self.cameraPopover = nil;
+        }
+        
     }
 }
+
+
+#pragma mark - Popover Handling
+
+- (void) imageDidFinish:(NSNotification *)notification {
+    if (isPhone) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.cameraPopover dismissPopoverAnimated:YES];
+        self.cameraPopover = nil;
+    }
+}
+
 
 /*
 // Override to support rearranging the table view.

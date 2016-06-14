@@ -92,6 +92,7 @@
 		816196F01CF71C55008A9492 /* BLCComposeCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCComposeCommentView.m; sourceTree = "<group>"; };
 		8173BBCC1CCA5FFA00839D26 /* BLCMediaTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCMediaTableViewCell.h; sourceTree = "<group>"; };
 		8173BBCD1CCA5FFA00839D26 /* BLCMediaTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCMediaTableViewCell.m; sourceTree = "<group>"; };
+		817F9E2B1D099B0A001CB3F8 /* Blocstagram-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Blocstagram-Prefix.pch"; sourceTree = "<group>"; };
 		8182A25E1CEE1D0B003FD15C /* BLCCircleSpinnerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCCircleSpinnerView.h; sourceTree = "<group>"; };
 		8182A25F1CEE1D0B003FD15C /* BLCCircleSpinnerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCCircleSpinnerView.m; sourceTree = "<group>"; };
 		8182A2611CEE2031003FD15C /* BLCLikeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCLikeButton.h; sourceTree = "<group>"; };
@@ -211,6 +212,14 @@
 			name = "Custom UI Elements";
 			sourceTree = "<group>";
 		};
+		817F9E2A1D099AC7001CB3F8 /* Pre-Compiled Headers */ = {
+			isa = PBXGroup;
+			children = (
+				817F9E2B1D099B0A001CB3F8 /* Blocstagram-Prefix.pch */,
+			);
+			name = "Pre-Compiled Headers";
+			sourceTree = "<group>";
+		};
 		818342BA1CD23CBE0034815D /* Icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -256,6 +265,7 @@
 		81FB9DDF1CC924D30026965A /* Blocstagram */ = {
 			isa = PBXGroup;
 			children = (
+				817F9E2A1D099AC7001CB3F8 /* Pre-Compiled Headers */,
 				815D1F2E1CFE0C6E00CF2480 /* Categories */,
 				81BBF1D81CE63667005DBDCD /* Utitlity */,
 				818342BA1CD23CBE0034815D /* Icons */,
