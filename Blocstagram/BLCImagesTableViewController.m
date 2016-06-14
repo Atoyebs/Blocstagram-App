@@ -25,9 +25,11 @@
 
 @property (nonatomic, weak) UIImageView *lastTappedImageView;
 @property (nonatomic, weak) UIView *lastSelectedCommentView;
+@property (nonatomic, strong) BLCMediaTableViewCell *lastSelectedCellOnLongPress;
 @property (nonatomic, assign) CGFloat lastKeyboardAdjustment;
 @property (nonatomic, strong) UIPopoverController *cameraPopover;
 @property (nonatomic, strong) UIPopoverController *activityIndicatorPopover;
+@property (nonatomic, strong) UIPopoverPresentationController *activityIndicatorPopoverPres;
 
 @end
 
@@ -426,21 +428,21 @@
     
     if(activityVC){
         
-        NSIndexPath *clickedCellIndexPath = [NSIndexPath indexPathForRow:cell.tag inSection:0];
+        CGSize screenSize = [UIScreen mainScreen].bounds.size;
         
+        NSIndexPath *clickedCellIndexPath = [NSIndexPath indexPathForRow:cell.tag inSection:0];
         CGRect clickedCellRect = [self.tableView rectForRowAtIndexPath:clickedCellIndexPath];
+        self.lastSelectedCellOnLongPress = cell;
         
         if(isPhone){
-            
             [self presentViewController:activityVC animated:YES completion:nil];
-            
         }
         else {
-            
-            NSLog(@"iPad popover");
-            self.activityIndicatorPopover = [[UIPopoverController alloc] initWithContentViewController:activityVC];
-            self.activityIndicatorPopover.popoverContentSize = CGSizeMake(568, 300);
-            [self.activityIndicatorPopover presentPopoverFromRect:clickedCellRect inView:self.tableView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+            UIPopoverPresentationController *popoverPresentation = activityVC.popoverPresentationController;
+            [popoverPresentation setSourceView:self.tableView];
+            [popoverPresentation setSourceRect:clickedCellRect];
+            [popoverPresentation setPermittedArrowDirections:UIPopoverArrowDirectionAny];
+            [self presentViewController:activityVC animated:YES completion:nil];
         }
     }
     
@@ -524,6 +526,15 @@
     }
 }
 
+
+-(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    
+    if (self.lastSelectedCellOnLongPress) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.lastSelectedCellOnLongPress.tag inSection:0];
+        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    }
+    
+}
 
 /*
 // Override to support rearranging the table view.
