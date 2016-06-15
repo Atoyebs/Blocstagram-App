@@ -32,6 +32,8 @@
 		81BBF1DB1CE6367C005DBDCD /* BLCMediaFullScreenAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 81BBF1DA1CE6367C005DBDCD /* BLCMediaFullScreenAnimator.m */; };
 		81D213051CF3373600A15F0A /* AFNetworking in Sources */ = {isa = PBXBuildFile; fileRef = 81D213031CF3373600A15F0A /* AFNetworking */; };
 		81D213061CF3373600A15F0A /* UICKeyChainStore in Sources */ = {isa = PBXBuildFile; fileRef = 81D213041CF3373600A15F0A /* UICKeyChainStore */; };
+		81F7C54E1D11721F001C458E /* BLCUserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F7C54D1D11721E001C458E /* BLCUserTests.m */; };
+		81F7C5501D1174E4001C458E /* BLCCommentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F7C54F1D1174E4001C458E /* BLCCommentTests.m */; };
 		81FB9DE21CC924D30026965A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FB9DE11CC924D30026965A /* main.m */; };
 		81FB9DE51CC924D30026965A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FB9DE41CC924D30026965A /* AppDelegate.m */; };
 		81FB9DED1CC924D30026965A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81FB9DEC1CC924D30026965A /* Assets.xcassets */; };
@@ -113,6 +115,8 @@
 		81BBF1DA1CE6367C005DBDCD /* BLCMediaFullScreenAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCMediaFullScreenAnimator.m; sourceTree = "<group>"; };
 		81D213031CF3373600A15F0A /* AFNetworking */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AFNetworking; path = Pods/AFNetworking; sourceTree = "<group>"; };
 		81D213041CF3373600A15F0A /* UICKeyChainStore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = UICKeyChainStore; path = Pods/UICKeyChainStore; sourceTree = "<group>"; };
+		81F7C54D1D11721E001C458E /* BLCUserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCUserTests.m; sourceTree = "<group>"; };
+		81F7C54F1D1174E4001C458E /* BLCCommentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCCommentTests.m; sourceTree = "<group>"; };
 		81FB9DDD1CC924D30026965A /* Blocstagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blocstagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81FB9DE11CC924D30026965A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		81FB9DE31CC924D30026965A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -297,6 +301,8 @@
 			children = (
 				81FB9DFA1CC924D30026965A /* BlocstagramTests.m */,
 				81FB9DFC1CC924D30026965A /* Info.plist */,
+				81F7C54D1D11721E001C458E /* BLCUserTests.m */,
+				81F7C54F1D1174E4001C458E /* BLCCommentTests.m */,
 			);
 			path = BlocstagramTests;
 			sourceTree = "<group>";
@@ -632,7 +638,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81F7C54E1D11721F001C458E /* BLCUserTests.m in Sources */,
 				81FB9DFB1CC924D30026965A /* BlocstagramTests.m in Sources */,
+				81F7C5501D1174E4001C458E /* BLCCommentTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
