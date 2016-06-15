@@ -81,6 +81,9 @@ static NSParagraphStyle *paragraphStyle;
     self.commentLabel.attributedText = [self commentString];
     self.likeButton.likeButtonState = mediaItem.likeState;
     self.commentView.text = mediaItem.temporaryComment;
+    
+    self.commentView.accessibilityIdentifier = mediaItem.caption;
+    
 }
 
 

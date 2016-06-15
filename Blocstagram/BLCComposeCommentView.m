@@ -10,7 +10,6 @@
 
 @interface BLCComposeCommentView () <UITextViewDelegate>
 
-@property (nonatomic, strong) UITextView *textView;
 @property (nonatomic, strong) UIButton *button;
 
 @end

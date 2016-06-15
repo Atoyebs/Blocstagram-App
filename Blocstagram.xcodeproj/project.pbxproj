@@ -35,6 +35,7 @@
 		81F7C54E1D11721F001C458E /* BLCUserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F7C54D1D11721E001C458E /* BLCUserTests.m */; };
 		81F7C5501D1174E4001C458E /* BLCCommentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F7C54F1D1174E4001C458E /* BLCCommentTests.m */; };
 		81F7C5521D117A7A001C458E /* BLCMediaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F7C5511D117A7A001C458E /* BLCMediaTests.m */; };
+		81F7C5581D11BFB9001C458E /* BLCComposeCommentViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F7C5571D11BFB9001C458E /* BLCComposeCommentViewTests.m */; };
 		81FB9DE21CC924D30026965A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FB9DE11CC924D30026965A /* main.m */; };
 		81FB9DE51CC924D30026965A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FB9DE41CC924D30026965A /* AppDelegate.m */; };
 		81FB9DED1CC924D30026965A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81FB9DEC1CC924D30026965A /* Assets.xcassets */; };
@@ -119,6 +120,7 @@
 		81F7C54D1D11721E001C458E /* BLCUserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCUserTests.m; sourceTree = "<group>"; };
 		81F7C54F1D1174E4001C458E /* BLCCommentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCCommentTests.m; sourceTree = "<group>"; };
 		81F7C5511D117A7A001C458E /* BLCMediaTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCMediaTests.m; sourceTree = "<group>"; };
+		81F7C5571D11BFB9001C458E /* BLCComposeCommentViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCComposeCommentViewTests.m; sourceTree = "<group>"; };
 		81FB9DDD1CC924D30026965A /* Blocstagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blocstagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81FB9DE11CC924D30026965A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		81FB9DE31CC924D30026965A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -306,6 +308,7 @@
 				81F7C54D1D11721E001C458E /* BLCUserTests.m */,
 				81F7C54F1D1174E4001C458E /* BLCCommentTests.m */,
 				81F7C5511D117A7A001C458E /* BLCMediaTests.m */,
+				81F7C5571D11BFB9001C458E /* BLCComposeCommentViewTests.m */,
 			);
 			path = BlocstagramTests;
 			sourceTree = "<group>";
@@ -643,6 +646,7 @@
 			files = (
 				81F7C54E1D11721F001C458E /* BLCUserTests.m in Sources */,
 				81FB9DFB1CC924D30026965A /* BlocstagramTests.m in Sources */,
+				81F7C5581D11BFB9001C458E /* BLCComposeCommentViewTests.m in Sources */,
 				81F7C5521D117A7A001C458E /* BLCMediaTests.m in Sources */,
 				81F7C5501D1174E4001C458E /* BLCCommentTests.m in Sources */,
 			);

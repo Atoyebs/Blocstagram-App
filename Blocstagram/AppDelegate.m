@@ -40,8 +40,8 @@
     
     }
     else {
-        BLCImagesTableViewController *imagesVC = [[BLCImagesTableViewController alloc] init];
-        [navVC setViewControllers:@[imagesVC] animated:YES];
+        self.imagesVC = [[BLCImagesTableViewController alloc] init];
+        [navVC setViewControllers:@[self.imagesVC] animated:YES];
     }
     
     self.window.rootViewController = navVC;

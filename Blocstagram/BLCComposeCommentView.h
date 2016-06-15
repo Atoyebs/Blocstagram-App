@@ -27,6 +27,8 @@
 
 @property (nonatomic, strong) NSString *text;
 
+@property (nonatomic, strong) UITextView *textView;
+
 - (void) stopComposingComment;
 
 

@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class BLCImagesTableViewController;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
+@property (nonatomic, strong) BLCImagesTableViewController *imagesVC;
 
 @end
 
