@@ -16,11 +16,7 @@
     self = [super init];
     
     if (self) {
-//        NSLog(@"count = %li", [mediaDictionary count]);
-//        for(NSObject *o in mediaDictionary.allKeys) {
-//            NSObject *v = [mediaDictionary objectForKey: o];
-//            NSLog(@"%@ = %@", o, v);
-//        }
+
         self.idNumber = mediaDictionary[@"id"];
         self.user = [[BLCUser alloc] initWithDictionary:mediaDictionary[@"user"]];
         NSString *standardResolutionImageURLString = mediaDictionary[@"images"][@"standard_resolution"][@"url"];
