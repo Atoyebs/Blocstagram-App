@@ -28,7 +28,7 @@
     [super tearDown];
 }
 
--(void)testComposeCommentViewRespondsToChangesInText {
+-(void)testComposeCommentViewisWritingCommentYes {
     
     
     AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -51,6 +51,31 @@
     BOOL result = commentView.isWritingComment;
     
     XCTAssertTrue(result, @"if commentView.textView.text is not empty then result should = YES");
+    
+}
+
+
+-(void)testComposeCommentViewisWritingCommentNo {
+    
+        AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        
+        BLCImagesTableViewController *tableVC = app.imagesVC;
+        
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:2 inSection:0];
+        
+        BLCMediaTableViewCell *testCell = (BLCMediaTableViewCell *)[tableVC tableView:tableVC.tableView cellForRowAtIndexPath:indexPath];
+        
+        BLCComposeCommentView *commentView = testCell.commentView;
+        
+        commentView.textView.text = @"";
+        
+        [commentView.textView.delegate textViewShouldBeginEditing:commentView.textView];
+        
+        [commentView.textView.delegate textViewShouldEndEditing:commentView.textView];
+    
+        BOOL result = commentView.isWritingComment;
+        
+        XCTAssertFalse(result, @"if commentView.textView.text is empty then result should = NO");
     
 }
 
