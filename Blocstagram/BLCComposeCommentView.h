@@ -31,5 +31,4 @@
 
 - (void) stopComposingComment;
 
-
 @end

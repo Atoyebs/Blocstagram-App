@@ -17,8 +17,6 @@
 
 @interface BLCMediaTableViewCell () <UIGestureRecognizerDelegate, BLCComposeCommentViewDelegate>
 
-@property (nonatomic, strong) UIImageView *mediaImageView;
-@property (nonatomic, strong) UILabel *usernameAndCaptionLabel;
 @property (nonatomic, strong) UILabel *commentLabel;
 
 @property (nonatomic, strong) NSLayoutConstraint *imageHeightConstraint;

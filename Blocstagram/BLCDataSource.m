@@ -87,11 +87,14 @@ NSString *const BLCImageFinishedNotification = @"BLCImageFinishedNotification";
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (storedMediaItems.count > 0) {
                         NSMutableArray *mutableMediaItems = [storedMediaItems mutableCopy];
+                        BLCMedia *dummyMediaItem = [self createTestMediaItem];
+                        
+                        [mutableMediaItems insertObject:dummyMediaItem atIndex:0];
                         
                         [self willChangeValueForKey:@"mediaItems"];
                          _mediaItems = mutableMediaItems;
                         [self didChangeValueForKey:@"mediaItems"];
-                        [self populateDataWithParameters:nil completionHandler:nil];
+//                        [self populateDataWithParameters:nil completionHandler:nil];
                     }
                     else {
                         [self populateDataWithParameters:nil completionHandler:nil];
@@ -468,6 +471,26 @@ NSString *const BLCImageFinishedNotification = @"BLCImageFinishedNotification";
     
     NSString *fullURL = [NSMutableString stringWithFormat:@"https://api.instagram.com/v1/media/%@/comments?access_token=", identifier];
     return fullURL;
+}
+
+-(BLCMedia *) createTestMediaItem {
+    
+    NSDictionary *userDictionary = @{@"full_name": @"IfeOluwa Oduyale",
+                                     @"id": @"1222900248",
+                                     @"profile_picture": @"https://scontent.cdninstagram.com/t51.2885-19/11202455_1389755414684441_1383627008_a.jpg",
+                                     @"username":@"rosy.cheeks"
+                                     };
+    
+    BLCMedia *testMediaItem = [[BLCMedia alloc] init];
+    BLCUser *testUser = [[BLCUser alloc] initWithDictionary:userDictionary];
+    
+    testMediaItem.idNumber = @"2202938159725758095_1251900268";
+    testMediaItem.user = testUser;
+    testMediaItem.image = [UIImage imageNamed:@"stephen-curry.jpg"];
+    testMediaItem.caption = @"#stephGonnaSteph";
+    testMediaItem.likeState = BLCLikeStateLiked;
+    
+    return testMediaItem;
 }
 
 

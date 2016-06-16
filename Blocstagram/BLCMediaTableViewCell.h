@@ -25,6 +25,8 @@
 @property (nonatomic, strong) BLCMedia *mediaItem;
 @property (nonatomic, weak) id <BLCMediaTableViewCellDelegate> delegate;
 @property (nonatomic, strong, readonly) BLCComposeCommentView *commentView;
+@property (nonatomic, strong) UIImageView *mediaImageView;
+@property (nonatomic, strong) UILabel *usernameAndCaptionLabel;
 
 + (CGFloat) heightForMediaItem:(BLCMedia *)mediaItem width:(CGFloat)width;
 

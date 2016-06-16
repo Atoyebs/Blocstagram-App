@@ -30,6 +30,7 @@
         
         [self addSubview:self.textView];
         [self.textView addSubview:self.button];
+        
     }
     return self;
 }
