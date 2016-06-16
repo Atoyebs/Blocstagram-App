@@ -134,8 +134,9 @@ NSString *const BLCImageFinishedNotification = @"BLCImageFinishedNotification";
     
         NSMutableDictionary *mutableParameters = [@{@"access_token": self.accessToken} mutableCopy];
         
-        [mutableParameters addEntriesFromDictionary:parameters];
-        
+        if(parameters){
+            [mutableParameters addEntriesFromDictionary:parameters];
+        }
         [self.instagramOperationManager GET:@"users/self/media/recent" parameters:mutableParameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
             if ([responseObject isKindOfClass:[NSDictionary class]]) {
