@@ -21,6 +21,7 @@
 		8182A2631CEE2031003FD15C /* BLCLikeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8182A2621CEE2031003FD15C /* BLCLikeButton.m */; };
 		818342B91CD107AA0034815D /* BLCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 818342B81CD107AA0034815D /* BLCLoginViewController.m */; };
 		818342C01CD244D90034815D /* back_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 818342BF1CD244D90034815D /* back_arrow.png */; };
+		81B523321D1833110026DD95 /* 1361677338607-simple.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B523311D1833110026DD95 /* 1361677338607-simple.png */; };
 		81BBF1C81CE5EA14005DBDCD /* BLCMediaFullScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81BBF1C71CE5EA14005DBDCD /* BLCMediaFullScreenViewController.m */; };
 		81BBF1CB1CE602B4005DBDCD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BBF1CA1CE602B4005DBDCD /* AVFoundation.framework */; };
 		81BBF1CD1CE602C0005DBDCD /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BBF1CC1CE602C0005DBDCD /* libz.tbd */; };
@@ -102,6 +103,7 @@
 		818342B71CD107AA0034815D /* BLCLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCLoginViewController.h; sourceTree = "<group>"; };
 		818342B81CD107AA0034815D /* BLCLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCLoginViewController.m; sourceTree = "<group>"; };
 		818342BF1CD244D90034815D /* back_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back_arrow.png; sourceTree = "<group>"; };
+		81B523311D1833110026DD95 /* 1361677338607-simple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1361677338607-simple.png"; sourceTree = "<group>"; };
 		81BBF1C61CE5EA14005DBDCD /* BLCMediaFullScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCMediaFullScreenViewController.h; sourceTree = "<group>"; };
 		81BBF1C71CE5EA14005DBDCD /* BLCMediaFullScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCMediaFullScreenViewController.m; sourceTree = "<group>"; };
 		81BBF1C91CE60254005DBDCD /* libReveal.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libReveal.dylib; sourceTree = "<group>"; };
@@ -330,6 +332,7 @@
 				81FB9E1C1CC926270026965A /* 8.jpg */,
 				81FB9E1D1CC926270026965A /* 9.jpg */,
 				81FB9E1E1CC926270026965A /* 10.jpg */,
+				81B523311D1833110026DD95 /* 1361677338607-simple.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -520,6 +523,7 @@
 				81FB9E251CC926270026965A /* 6.jpg in Resources */,
 				81FB9E291CC926270026965A /* 10.jpg in Resources */,
 				81FB9DF01CC924D30026965A /* LaunchScreen.storyboard in Resources */,
+				81B523321D1833110026DD95 /* 1361677338607-simple.png in Resources */,
 				81FB9DED1CC924D30026965A /* Assets.xcassets in Resources */,
 				81FB9E221CC926270026965A /* 3.jpg in Resources */,
 				81FB9E201CC926270026965A /* 1.jpg in Resources */,
